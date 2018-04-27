@@ -10,7 +10,6 @@ import java.awt.event.MouseListener;
  * date: 26.04.2018
  * version: 1.0
  */
-
 /*
 *   Eigene JPanels um Koordinaten des jPanels zu bekommen
 *   Setzen implementieren (mögliche Funktion im GolFrame)
@@ -20,6 +19,7 @@ import java.awt.event.MouseListener;
  */
 public class GolMouseListener implements MouseListener {
     boolean clickactivate;
+    boolean drawactivate;
     GolFrame golframe;
     public GolMouseListener(GolFrame gol){
         clickactivate=false;
@@ -27,11 +27,23 @@ public class GolMouseListener implements MouseListener {
     }
     @Override
     public void mouseClicked(MouseEvent e) {
-        Color cell = ((JPanel)e.getSource()).getBackground();
-        if(golframe.alive.equals(cell))
+        if(clickactivate)
         {
+            CellPanel p = ((CellPanel)e.getSource());
+            Color cell = p.getBackground();
+            if(golframe.alive.equals(cell))
+            {
+                p.setBackground(golframe.dead);
+                golframe.gol.getCells()[p.getRow()][p.getCol()].setAlife(false);
 
+            }
+            else
+            {
+                p.setBackground(golframe.alive);
+                golframe.gol.getCells()[p.getRow()][p.getCol()].setAlife(true);
+            }
         }
+
     }
 
     @Override
@@ -46,6 +58,22 @@ public class GolMouseListener implements MouseListener {
 
     @Override
     public void mouseEntered(MouseEvent e) {
+        if(drawactivate)
+        {
+            CellPanel p = ((CellPanel)e.getSource());
+            Color cell = p.getBackground();
+            if(golframe.alive.equals(cell))
+            {
+                p.setBackground(golframe.dead);
+                golframe.gol.getCells()[p.getRow()][p.getCol()].setAlife(false);
+            }
+            else
+            {
+                p.setBackground(golframe.alive);
+                golframe.gol.getCells()[p.getRow()][p.getCol()].setAlife(true);
+            }
+        }
+
 
     }
 

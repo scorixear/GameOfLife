@@ -24,7 +24,7 @@ public class MainFrame extends JFrame {
 
     }
 
-    protected void addChild(GolFrame child) {
+    protected void addChild(JInternalFrame child) {
        desk.add(child);
        child.setVisible(true);
     }
@@ -32,7 +32,6 @@ public class MainFrame extends JFrame {
 
     public static void main(String[] args) {
         MainFrame frame = new MainFrame();
-        frame.addChild(new GolFrame("Game of Life",frame, new Point(0,0),new Dimension(250,150),10,10));
-        frame.addChild(new GolFrame("Game of Life",frame, new Point(100,100),new Dimension(250,250),20,10));
+        frame.addChild(new GolCreateFrame(frame,new Point(0,0)));
     }
 }

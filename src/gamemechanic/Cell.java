@@ -48,4 +48,14 @@ public class Cell {
         }
         return lifecount == 3;
     }
+    public void setAlife(boolean b){
+        alife=b;
+    }
+
+    public int getRow() {
+        return row;
+    }
+    public int getCol(){
+        return col;
+    }
 }

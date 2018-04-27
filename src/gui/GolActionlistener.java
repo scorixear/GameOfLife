@@ -1,5 +1,7 @@
 package gui;
 
+import gamemechanic.Cell;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,20 +27,107 @@ public class GolActionlistener implements ActionListener {
             case "Laufen":
                 golframe.gol.start();
                 golframe.mouseListener.clickactivate=false;
+                golframe.mouseListener.drawactivate=false;
 
                 break;
             case "Setzen":
                 golframe.gol.stop();
                 golframe.mouseListener.clickactivate=true;
+                golframe.mouseListener.drawactivate=false;
 
                 break;
             case "Malen":
                 golframe.gol.stop();
                 golframe.mouseListener.clickactivate=false;
+                golframe.mouseListener.drawactivate=true;
 
                 break;
+            case "Random füllen":
+                    for(int i=0;i<golframe.panels.length;i++)
+                    {
+                        for(int j=0;j<golframe.panels[i].length;j++)
+                        {
+                            CellPanel c = golframe.panels[i][j];
+                            if(new Random().nextBoolean())
+                            {
+                                c.setBackground(golframe.alive);
+                                golframe.gol.getCells()[c.getRow()][c.getCol()].setAlife(true);
+                            }
+                            else
+                            {
+                                c.setBackground(golframe.dead);
+                                golframe.gol.getCells()[c.getRow()][c.getCol()].setAlife(false);
+                            }
+
+                        }
+                    }
+                break;
+            case "Gleiter":
+                for(int i=0;i<golframe.panels.length;i++)
+                {
+                    for(int j=0;j<golframe.panels[i].length;j++)
+                    {
+                        CellPanel c = golframe.panels[i][j];
+                        c.setBackground(golframe.dead);
+                        golframe.gol.getCells()[c.getRow()][c.getCol()].setAlife(false);
+                    }
+                }
+                try{
+                    setCellAlive(0,1);
+                    setCellAlive(1,2);
+                    setCellAlive(2,0);
+                    setCellAlive(2,1);
+                    setCellAlive(2,2);
+
+                }catch(ArrayIndexOutOfBoundsException ignored) { }
+                break;
+            case "F-Population":
+                for(int i=0;i<golframe.panels.length;i++)
+                {
+                    for(int j=0;j<golframe.panels[i].length;j++)
+                    {
+                        CellPanel c = golframe.panels[i][j];
+                        c.setBackground(golframe.dead);
+                        golframe.gol.getCells()[c.getRow()][c.getCol()].setAlife(false);
+                    }
+                }
+                try{
+                    setCellAlive(golframe.rows/2-1,golframe.cols/2);
+                    setCellAlive(golframe.rows/2-1,golframe.cols/2+1);
+                    setCellAlive(golframe.rows/2,golframe.cols/2-1);
+                    setCellAlive(golframe.rows/2,golframe.cols/2);
+                    setCellAlive(golframe.rows/2+1,golframe.cols/2);
+
+                }catch(ArrayIndexOutOfBoundsException ignored) { }
+                break;
+            case "Spaceship":
+                for(int i=0;i<golframe.panels.length;i++)
+                {
+                    for(int j=0;j<golframe.panels[i].length;j++)
+                    {
+                        CellPanel c = golframe.panels[i][j];
+                        c.setBackground(golframe.dead);
+                        golframe.gol.getCells()[c.getRow()][c.getCol()].setAlife(false);
+                    }
+                }
+                try{
+                    setCellAlive(golframe.rows/2-1,golframe.cols/2);
+                    setCellAlive(golframe.rows/2-1,golframe.cols/2+1);
+                    setCellAlive(golframe.rows/2,golframe.cols/2-2);
+                    setCellAlive(golframe.rows/2,golframe.cols/2-1);
+                    setCellAlive(golframe.rows/2,golframe.cols/2+1);
+                    setCellAlive(golframe.rows/2,golframe.cols/2+2);
+                    setCellAlive(golframe.rows/2+1,golframe.cols/2-2);
+                    setCellAlive(golframe.rows/2+1,golframe.cols/2-1);
+                    setCellAlive(golframe.rows/2+1,golframe.cols/2);
+                    setCellAlive(golframe.rows/2+1,golframe.cols/2+1);
+                    setCellAlive(golframe.rows/2+2,golframe.cols/2-1);
+                    setCellAlive(golframe.rows/2+2,golframe.cols/2);
+
+                }catch(ArrayIndexOutOfBoundsException ignored) { }
+                break;
             case "Neues Layout":
-                GolFrame newChild = new GolFrame(golframe);
+                GolFrame newChild = new GolFrame(golframe,golframe.clonecount+1);
                 golframe.desk.addChild(newChild);
                 int r = (int) (Math.random() * 4);
 
@@ -77,5 +166,11 @@ public class GolActionlistener implements ActionListener {
 
                 break;
         }
+    }
+    private void setCellAlive(int i, int j) throws ArrayIndexOutOfBoundsException
+    {
+        CellPanel c = golframe.panels[i][j];
+        c.setBackground(golframe.alive);
+        golframe.gol.getCells()[c.getRow()][c.getCol()].setAlife(true);
     }
 }

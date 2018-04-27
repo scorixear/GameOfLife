@@ -1,7 +1,4 @@
 package gamemechanic;
-
-import gui.GolFrame;
-
 import java.util.Observable;
 import java.util.Random;
 
@@ -57,22 +54,20 @@ public class GameOfLife extends Observable {
             {
                 nextGeneration[i][j]=new Cell(i,j);
                 nextGeneration[i][j].setLife(cells[i][j].checkNeighbours(cells));
+
             }
         }
         cells=nextGeneration;
         setChanged();
         notifyObservers();
-        if(countObservers()==0)
-        {
-
+        if(countObservers()==0) {
             stop();
         }
     }
 
     private Cell[][] createNewGame(int rows, int cols) {
         Cell[][] cells = new Cell[rows][cols];
-        for(int i =0;i<rows;i++)
-        {
+        for(int i =0;i<rows;i++) {
             for(int j=0;j<cols;j++)
                 cells[i][j]=new Cell(i,j);
         }
@@ -80,10 +75,8 @@ public class GameOfLife extends Observable {
     }
 
     public void fillRandom() {
-        for(int i=0;i<cells.length;i++)
-        {
-            for(int j=0;j<cells[i].length;j++)
-            {
+        for(int i=0;i<cells.length;i++) {
+            for(int j=0;j<cells[i].length;j++) {
                 cells[i][j].setLife(new Random().nextBoolean());
             }
         }
