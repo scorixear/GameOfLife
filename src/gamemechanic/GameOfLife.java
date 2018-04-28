@@ -1,5 +1,7 @@
 package gamemechanic;
+import java.util.ArrayList;
 import java.util.Observable;
+import java.util.Observer;
 import java.util.Random;
 
 /**
@@ -10,13 +12,38 @@ import java.util.Random;
 public class GameOfLife extends Observable {
     private Cell[][] cells;
     GenerationThread thread;
+    private ArrayList<Observer> observers;
     public GameOfLife(int rows, int cols)
     {
         cells =createNewGame(rows,cols);
         thread= new GenerationThread(this);
+        observers=new ArrayList<>();
     }
-    public void setThread(GenerationThread thread){
-        this.thread=thread;
+
+    @Override
+    public void addObserver(Observer observer)
+    {
+
+        if(!observers.contains(observer))
+        {
+            observers.add(observer);
+            super.addObserver(observer);
+        }
+    }
+
+    @Override
+    public void deleteObserver(Observer observer)
+    {
+
+        if(observers.contains(observer))
+        {
+            observers.remove(observer);
+            super.deleteObserver(observer);
+        }
+    }
+
+    public ArrayList<Observer> getObservers(){
+        return observers;
     }
 
     public void start(){
@@ -26,7 +53,6 @@ public class GameOfLife extends Observable {
             thread = new GenerationThread(this);
             thread.start();
             thread.setSpeed(speed);
-            System.out.println("start");
         }
 
     }

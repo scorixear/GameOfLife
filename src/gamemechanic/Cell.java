@@ -1,8 +1,5 @@
 package gamemechanic;
 
-import javax.swing.*;
-import java.awt.*;
-
 /**
  * author: Paul Keller
  * date: 26.04.2018
@@ -41,7 +38,6 @@ public class Cell {
         lifecount= cells[plusrow][pluscol].isAlife()?lifecount+1:lifecount;
 
 
-        //System.out.println(lifecount);
         if(isAlife())
         {
             return lifecount >= 2 && lifecount <= 3;

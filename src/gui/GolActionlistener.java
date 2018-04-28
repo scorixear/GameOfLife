@@ -1,12 +1,13 @@
 package gui;
 
 import gamemechanic.Cell;
+import gamemechanic.GameOfLife;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
-import java.util.Random;
+import java.util.*;
 
 /**
  * author: Paul Keller
@@ -63,11 +64,10 @@ public class GolActionlistener implements ActionListener {
                     }
                 break;
             case "Gleiter":
-                for(int i=0;i<golframe.panels.length;i++)
+                for(CellPanel[] cp:golframe.panels)
                 {
-                    for(int j=0;j<golframe.panels[i].length;j++)
+                    for(CellPanel c :cp)
                     {
-                        CellPanel c = golframe.panels[i][j];
                         c.setBackground(golframe.dead);
                         golframe.gol.getCells()[c.getRow()][c.getCol()].setAlife(false);
                     }
@@ -82,11 +82,11 @@ public class GolActionlistener implements ActionListener {
                 }catch(ArrayIndexOutOfBoundsException ignored) { }
                 break;
             case "F-Population":
-                for(int i=0;i<golframe.panels.length;i++)
+                golframe.gol.stop();
+                for(CellPanel[] cp:golframe.panels)
                 {
-                    for(int j=0;j<golframe.panels[i].length;j++)
+                    for(CellPanel c :cp)
                     {
-                        CellPanel c = golframe.panels[i][j];
                         c.setBackground(golframe.dead);
                         golframe.gol.getCells()[c.getRow()][c.getCol()].setAlife(false);
                     }
@@ -98,14 +98,15 @@ public class GolActionlistener implements ActionListener {
                     setCellAlive(golframe.rows/2,golframe.cols/2);
                     setCellAlive(golframe.rows/2+1,golframe.cols/2);
 
-                }catch(ArrayIndexOutOfBoundsException ignored) { }
+                }catch(ArrayIndexOutOfBoundsException ignored) {
+                }
+
                 break;
             case "Spaceship":
-                for(int i=0;i<golframe.panels.length;i++)
+                for(CellPanel[] cp:golframe.panels)
                 {
-                    for(int j=0;j<golframe.panels[i].length;j++)
+                    for(CellPanel c :cp)
                     {
-                        CellPanel c = golframe.panels[i][j];
                         c.setBackground(golframe.dead);
                         golframe.gol.getCells()[c.getRow()][c.getCol()].setAlife(false);
                     }

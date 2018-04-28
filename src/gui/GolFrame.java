@@ -102,7 +102,6 @@ public class GolFrame extends JInternalFrame implements Observer{
     }
 
     private void setUp() {
-        System.out.println(clonecount%4);
         if(clone!=null)
         {
 
@@ -170,14 +169,17 @@ public class GolFrame extends JInternalFrame implements Observer{
                     }
                 }
             }
+            layout.setHgap(rows>60?0:1);
+            layout.setVgap(cols>60?0:1);
         }
         else
         {
             gol = new GameOfLife(rows,cols);
             gol.addObserver(this);
             GridLayout layout = new GridLayout(rows,cols);
-            layout.setHgap(1);
-            layout.setVgap(1);
+            setSize(getScaledDimension(new Dimension(rows*25,cols*25),boundary));
+            layout.setHgap(rows>60?0:1);
+            layout.setVgap(cols>60?0:1);
             setLayout(layout);
             panels=new CellPanel[rows][cols];
             for(int i=0;i<gol.getCells().length;i++)
@@ -229,6 +231,7 @@ public class GolFrame extends JInternalFrame implements Observer{
                 }
             }
         }
+        repaint();
 
 
     }
