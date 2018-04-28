@@ -14,31 +14,45 @@ import java.util.Observer;
  * date: 26.04.2018
  * version: 1.0
  */
+
+/*
+ * Der GolFrame ist ein JInternalFrame, welcher ein Spiel des Lebens darstellt. Dabei wird zwischen zwei Sorten unterschieden: Dem GolFrame, welcher eine GameOfLife-Instanz erstellen muss
+ * oder dem GolFrame, welcher nur auf eine GameOfLife-Instanz schauen muss. Letzeres wird durch den ersten Konstruktor erstellt. Die SetUp() Methode wurde ebenso auf diese beiden Typen
+ * angepasst. Ebenso wie die Update-Methode
+ */
+@SuppressWarnings("deprecation")
 public class GolFrame extends JInternalFrame implements Observer{
-    MainFrame desk;
+
     private String titel;
-    private JMenuBar menubar;
-    GameOfLife gol;
-    CellPanel[][] panels;
-    GolMouseListener mouseListener;
-    int rows, cols;
-    GolFrame clone;
-    Color alive, dead;
-    int clonecount;
+    private GolFrame clone;
     private Dimension boundary=new Dimension(600,600);
+
+    MainFrame desk;
+    GameOfLife gol;
+    GolMouseListener mouseListener;
+
+    int rows, cols;
+    int clonecount;
+    CellPanel[][] panels;
+    Color alive, dead;
+
+
     GolFrame(GolFrame clone, int clonecount)
     {
        this(clone.titel,clone.desk,new Point(clone.getLocation().x + 20, clone.getLocation().y + 20), clone.rows,clone.cols, clone, clonecount);
+       //Der Clone-Count stellt die aktuelle Rotation des Spielfeldes dar, wobei immer %4 gerechnet wird, um alle 4 Rotationsmöglichkeiten zu unterscheiden
     }
     GolFrame(String titel, MainFrame desk, Point p, int rows, int cols)
     {
         this(titel, desk, p, rows, cols,  null, 0);
     }
 
-    GolFrame(String titel, MainFrame desk, Point p, int rows, int cols, GolFrame clone, int clonecount){
+    private GolFrame(String titel, MainFrame desk, Point p, int rows, int cols, GolFrame clone, int clonecount){
         super(titel+" "+desk.getChildcount(),true,true,true,true);
-        menubar = new JMenuBar();
-        this.clonecount=clonecount;
+
+        //Ab hier wird das JMenu erstellt
+        JMenuBar menubar = new JMenuBar();
+
         GolActionlistener golActionlistener = new GolActionlistener(this);
         JMenu menu = new JMenu("Modus");
         JMenuItem laufen = new JMenuItem("Laufen", KeyEvent.VK_L);
@@ -64,11 +78,11 @@ public class GolFrame extends JInternalFrame implements Observer{
        graurot.addActionListener(golActionlistener);
        JMenuItem graugelb = new JMenuItem("Grau - Gelb");
        graugelb.addActionListener(golActionlistener);
-       JMenuItem rotgrün = new JMenuItem("Rot - Grün");
-       rotgrün.addActionListener(golActionlistener);
-       JMenuItem weißrot = new JMenuItem("Weiß - Rot");
-       weißrot.addActionListener(golActionlistener);
-       menu3.add(graurot);menu3.add(graugelb); menu3.add(rotgrün);menu3.add(weißrot);
+       JMenuItem rotgruen = new JMenuItem("Rot - Grün");
+       rotgruen.addActionListener(golActionlistener);
+       JMenuItem weissrot = new JMenuItem("Weiß - Rot");
+       weissrot.addActionListener(golActionlistener);
+       menu3.add(graurot);menu3.add(graugelb); menu3.add(rotgruen);menu3.add(weissrot);
 
        JMenu menu4 = new JMenu("Prepared");
         JMenuItem fillRandom = new JMenuItem("Random füllen");
@@ -81,9 +95,16 @@ public class GolFrame extends JInternalFrame implements Observer{
         ship.addActionListener(golActionlistener);
         menu4.add(fillRandom);menu4.add(glider);menu4.add(fpop);menu4.add(ship);
 
-       menubar.add(menu);menubar.add(menu2);menubar.add(menu3);menubar.add(menu4);
+       menubar.add(menu);
+        menubar.add(menu2);
+        menubar.add(menu3);
+        menubar.add(menu4);
        setJMenuBar(menubar);
 
+
+       //Ab hier werden Variablen gesetzt
+
+        this.clonecount=clonecount;
        alive = Color.RED;
        dead = Color.GRAY;
 
@@ -95,19 +116,21 @@ public class GolFrame extends JInternalFrame implements Observer{
         this.clone=clone;
 
         mouseListener=new GolMouseListener(this);
+
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocation(p);
-        setSize(getScaledDimension(new Dimension(cols*25,rows*25),boundary));
         setUp();
     }
 
     private void setUp() {
+        //Diese If-Abfrage unterscheidet zwischen den beiden Typen
         if(clone!=null)
         {
 
             gol=clone.gol;
             gol.addObserver(this);
             GridLayout layout;
+            //Hier wird zwischen den vier Rotationen unterschieden. Man Rotiert gegen den Uhrzeigersinn
             if(clonecount%4==1)
             {
                 layout = new GridLayout(cols,rows);
@@ -198,6 +221,7 @@ public class GolFrame extends JInternalFrame implements Observer{
     @Override
     public void update(Observable o, Object arg) {
         Cell[][] cells = gol.getCells();
+        //Auch hier wird die Rotation beachtet
         if(clonecount%4==1)
         {
             for(int row = 0;row<cols;row++) {
@@ -231,11 +255,13 @@ public class GolFrame extends JInternalFrame implements Observer{
                 }
             }
         }
-        repaint();
 
 
     }
     private Dimension getScaledDimension(Dimension oldSize, Dimension boundary) {
+        //Um auch größere Anzahlen an Zellen darstellen zu können, wird die Größe des Frames auf eine Grenze verkleinert.
+        //Ab 300x300 Zellen kommt allerdings der Paint-Thread des JInternalFrames nicht mehr mit. Die JPanels wurden erstellt und auch auf richtige Farben gesetzt, allerdings
+        //werden Sie nicht mehr im JFrame angezeigt geschweige denn den JInternalFrame
 
         int original_width = oldSize.width;
         int original_height = oldSize.height;
@@ -244,22 +270,15 @@ public class GolFrame extends JInternalFrame implements Observer{
         int new_width = original_width;
         int new_height = original_height;
 
-        // first check if we need to scale width
         if (original_width > bound_width) {
-            //scale width to fit
             new_width = bound_width;
-            //scale height to maintain aspect ratio
             new_height = (new_width * original_height) / original_width;
         }
 
-        // then check if we need to scale even with the new height
         if (new_height > bound_height) {
-            //scale height to fit instead
             new_height = bound_height;
-            //scale width to maintain aspect ratio
             new_width = (new_height * original_width) / original_height;
         }
-
         return new Dimension(new_width, new_height);
     }
 

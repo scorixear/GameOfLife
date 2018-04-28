@@ -5,11 +5,14 @@ package gamemechanic;
  * date: 26.04.2018
  * version: 1.0
  */
+/*
+ * Die GenerationThread-Klasse ist der Thread, welcher in einem bestimmten Zeitintervall einen Generationswechsel anstößt. Dafür wird eine double-Variable speed genutzt.
+ */
 public class GenerationThread extends Thread {
-    double speed;
-    GameOfLife life;
-    boolean interrupt=false;
-    public GenerationThread(GameOfLife l){
+    private double speed;
+    private GameOfLife life;
+    private boolean interrupt=false;
+    GenerationThread(GameOfLife l){
         life=l;
         speed = 1;
     }
@@ -29,11 +32,11 @@ public class GenerationThread extends Thread {
         }
 
     }
-    public void stopThread(){interrupt=true;}
-    public void setSpeed(double speed) {
+    void stopThread(){interrupt=true;}
+    void setSpeed(double speed) {
         this.speed = speed;
     }
-    public double getSpeed(){
+    double getSpeed(){
         return speed;
     }
 }

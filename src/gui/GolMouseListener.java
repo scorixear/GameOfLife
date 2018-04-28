@@ -1,6 +1,5 @@
 package gui;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -11,17 +10,13 @@ import java.awt.event.MouseListener;
  * version: 1.0
  */
 /*
-*   Eigene JPanels um Koordinaten des jPanels zu bekommen
-*   Setzen implementieren (mögliche Funktion im GolFrame)
-*   New Layout überarbeiten
-*   Malen implementieren
-*
+ * der GolMouseListener handelt die Funktion Setzen und Malen
  */
 public class GolMouseListener implements MouseListener {
     boolean clickactivate;
     boolean drawactivate;
-    GolFrame golframe;
-    public GolMouseListener(GolFrame gol){
+    private GolFrame golframe;
+    GolMouseListener(GolFrame gol){
         clickactivate=false;
         golframe=gol;
     }

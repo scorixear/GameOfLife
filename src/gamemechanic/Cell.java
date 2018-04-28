@@ -5,20 +5,24 @@ package gamemechanic;
  * date: 26.04.2018
  * version: 1.0
  */
+/*
+*   Diese Klasse repräsentiert eine Zelle im Modell Game of Life. Sie weiß ihre Position im Spiel und ihren aktuellen Status ("Lebendig" oder "Tot)
+*   Sie kann ebenso ihre nächste Generation vorraussehen (checkNeighbours)
+ */
 public class Cell {
     private int col,row;
     private boolean alife;
 
-    public Cell(int row, int col){
+    Cell(int row, int col){
         super();
         this.row=row;
         this.col=col;
         alife = false;
 
     }
-    protected void setLife(boolean a){alife=a;}
+    void setLife(boolean a){alife=a;}
     public boolean isAlife(){return alife;}
-    protected boolean checkNeighbours(Cell[][] cells)
+    boolean checkNeighbours(Cell[][] cells)
     {
 
         int minusrow = (row-1==-1)?cells.length-1:row-1;

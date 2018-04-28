@@ -9,19 +9,19 @@ import javax.swing.*;
  * date: 27.04.2018
  * version: 1.0
  */
-public class CellPanel extends JPanel {
-    Cell c;
-    public CellPanel(Cell c){
+/*
+ * Die CellPanel-Klasse ist ein JPanel welches Informationen über die Zelle und ihre Koordinaten enthält, welche es bildlich darstellt.
+ */
+class CellPanel extends JPanel {
+    private Cell c;
+    CellPanel(Cell c){
         this.c=c;
     }
 
-    public Cell getC() {
-        return c;
-    }
-    public int getRow(){
+    int getRow(){
         return c.getRow();
     }
-    public int getCol(){
+    int getCol(){
         return c.getCol();
     }
 }

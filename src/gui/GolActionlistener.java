@@ -1,12 +1,9 @@
 package gui;
 
-import gamemechanic.Cell;
-import gamemechanic.GameOfLife;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseListener;
 import java.util.*;
 
 /**
@@ -14,10 +11,14 @@ import java.util.*;
  * date: 26.04.2018
  * version: 1.0
  */
+/*
+ * Der GolActionListener ist für die Funktionen der einzelnen JMenuItems aus den GolFrames zuständig. Dabei wird mit mit einem Switch-Case unterschieden und einzelnen Zellen und JPanels auf
+ * andere Zustände gesetzt. Entweder werden direkt hier die Zellen bearbeitet oder eine Variable für den GolMouseListener wird verändert, welche dort die Weiterbearbeitung der Zellen ermöglicht
+ */
 public class GolActionlistener implements ActionListener {
     private GolFrame golframe;
     private Color[][] colorsets = {{Color.gray,Color.red},{Color.gray,Color.green},{Color.red,Color.green},{Color.white, Color.red}};
-    public GolActionlistener(GolFrame golframe)
+    GolActionlistener(GolFrame golframe)
     {
      this.golframe=golframe;
     }

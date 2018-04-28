@@ -13,10 +13,13 @@ import java.util.Random;
  * date: 27.04.2018
  * version: 1.0
  */
+/*
+ * Der GolCreateFrame ist ein einfacher Frame mit zwei Eingabefeldern für Reihen- und Spaltenanzahl
+ */
 public class GolCreateFrame extends JInternalFrame implements ActionListener, KeyListener {
     private MainFrame desk;
     private JTextField rowField, colField;
-    public GolCreateFrame(MainFrame desk, Point p){
+    GolCreateFrame(MainFrame desk, Point p){
         this.desk = desk;
         setSize(200,100);
         setLocation(p);
@@ -37,8 +40,8 @@ public class GolCreateFrame extends JInternalFrame implements ActionListener, Ke
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        int rows=0;
-        int cols=0;
+        int rows;
+        int cols;
         try{
             rows = Integer.parseInt(rowField.getText());
         }catch(NumberFormatException ex)

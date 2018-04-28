@@ -1,49 +1,23 @@
 package gamemechanic;
-import java.util.ArrayList;
 import java.util.Observable;
-import java.util.Observer;
-import java.util.Random;
 
 /**
  * author: Paul Keller
  * date: 26.04.2018
  * version: 1.0
  */
+/*
+ * Die GameOfLife-Klasse repräsentiert das zweidimensionale Array aus Zellen. In der GameOfLife Klasse wird das starten und Stoppen des dazugehörigen Threads übernommen
+ * sowie das erstellen von Zellen und das ausrechnen der nächsten Generation. Für den Nutzer dieses packages sollte kein Zugriff auf die Klasse GenerationThread und Cell nötig sein
+ */
+@SuppressWarnings("deprecation")
 public class GameOfLife extends Observable {
     private Cell[][] cells;
-    GenerationThread thread;
-    private ArrayList<Observer> observers;
+    private GenerationThread thread;
     public GameOfLife(int rows, int cols)
     {
         cells =createNewGame(rows,cols);
         thread= new GenerationThread(this);
-        observers=new ArrayList<>();
-    }
-
-    @Override
-    public void addObserver(Observer observer)
-    {
-
-        if(!observers.contains(observer))
-        {
-            observers.add(observer);
-            super.addObserver(observer);
-        }
-    }
-
-    @Override
-    public void deleteObserver(Observer observer)
-    {
-
-        if(observers.contains(observer))
-        {
-            observers.remove(observer);
-            super.deleteObserver(observer);
-        }
-    }
-
-    public ArrayList<Observer> getObservers(){
-        return observers;
     }
 
     public void start(){
@@ -70,7 +44,7 @@ public class GameOfLife extends Observable {
         return cells;
     }
 
-    protected void doGeneration(){
+    void doGeneration(){
         int rows = cells.length;
         int cols = cells[0].length;
         Cell[][] nextGeneration = createNewGame(rows,cols);
@@ -100,11 +74,4 @@ public class GameOfLife extends Observable {
         return cells;
     }
 
-    public void fillRandom() {
-        for(int i=0;i<cells.length;i++) {
-            for(int j=0;j<cells[i].length;j++) {
-                cells[i][j].setLife(new Random().nextBoolean());
-            }
-        }
-    }
 }

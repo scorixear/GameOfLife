@@ -8,10 +8,13 @@ import java.awt.*;
  * date: 26.04.2018
  * version: 1.0
  */
+/*
+ * Der MainFrame erstellt den ersten GolCreateFrame
+ */
 public class MainFrame extends JFrame {
     private JDesktopPane desk;
     private int childcount=0;
-    public MainFrame(){
+    private MainFrame(){
         desk = new JDesktopPane();
         desk.setDesktopManager(new DefaultDesktopManager());
         setContentPane(desk);
@@ -24,11 +27,11 @@ public class MainFrame extends JFrame {
 
     }
 
-    protected void addChild(JInternalFrame child) {
+    void addChild(JInternalFrame child) {
        desk.add(child);
        child.setVisible(true);
     }
-    protected int getChildcount(){return childcount++;}
+    int getChildcount(){return childcount++;}
 
     public static void main(String[] args) {
         MainFrame frame = new MainFrame();
